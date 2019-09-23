@@ -5489,7 +5489,7 @@ _.e=e},
 a7u:function(a){var u=0,t=P.ah(null),s,r
 var $async$a7u=P.ad(function(b,c){if(b===1)return P.ae(c,t)
 while(true)switch(u){case 0:u=3
-return P.am(G.ae9("//qualityproject-001-site1.ctempurl.com/api/v1/"+a),$async$a7u)
+return P.am(G.ae9("https://cors-anywhere.herokuapp.com///qualityproject-001-site1.ctempurl.com/api/v1/"+a),$async$a7u)
 case 3:r=c
 if(r.b===200){s=B.ae3(U.add(r.e).c.a.i(0,"charset")).dn(0,r.x)
 u=1
@@ -5502,7 +5502,7 @@ var $async$a7J=P.ad(function(c,d){if(c===1)return P.ae(d,t)
 while(true)switch(u){case 0:r={}
 r.a=!1
 u=3
-return P.am(G.alm("//qualityproject-001-site1.ctempurl.com/api/v1/"+a,b).eg(new M.a7K(r)).lD(new M.a7L()),$async$a7J)
+return P.am(G.alm("https://cors-anywhere.herokuapp.com///qualityproject-001-site1.ctempurl.com/api/v1/"+a,b).eg(new M.a7K(r)).lD(new M.a7L()),$async$a7J)
 case 3:s=r.a
 u=1
 break
@@ -10518,7 +10518,7 @@ a4T:function a4T(){},
 a7o:function(){var u=0,t=P.ah(B.n_),s,r,q,p
 var $async$a7o=P.ad(function(a,b){if(a===1)return P.ae(b,t)
 while(true)switch(u){case 0:u=3
-return P.am(G.ae9("//qualityproject-001-site1.ctempurl.com/api/v1/Policy/getById?id=1"),$async$a7o)
+return P.am(G.ae9("https://cors-anywhere.herokuapp.com///qualityproject-001-site1.ctempurl.com/api/v1/Policy/getById?id=1"),$async$a7o)
 case 3:p=b
 if(p.b===200){r=C.be.dn(0,B.ae3(U.add(p.e).c.a.i(0,"charset")).dn(0,p.x))
 q=J.aJ(r)
@@ -10534,7 +10534,7 @@ while(true)switch(u){case 0:s=new H.c5([P.n,null])
 s.m(0,"id","1")
 s.m(0,"policy",a)
 u=2
-return P.am(G.alr("//qualityproject-001-site1.ctempurl.com/api/v1/Policy",s),$async$a7Q)
+return P.am(G.alr("https://cors-anywhere.herokuapp.com///qualityproject-001-site1.ctempurl.com/api/v1/Policy",s),$async$a7Q)
 case 2:return P.af(null,t)}})
 return P.ag($async$a7Q,t)}},K={
 agG:function(a,b){a.c6(C.zq)
