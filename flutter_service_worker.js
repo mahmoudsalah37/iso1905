@@ -58,10 +58,10 @@ const RESOURCES = {
 "/assets\icons\support.png": "270523465b3f706d7fc14bdeb51a96c9",
 "/assets\icons\transfer.png": "7ec026caa56f1b6e65e6c2e036f80f34",
 "/assets\icons\view.png": "2814fc32ea68697d79fc0c52ed22f1d9",
-"/assets\LICENSE": "c1bcf8af660c08782874531e117fb3fe",
+"/assets\LICENSE": "a0a686935bddcb332d982491cc4d12be",
 "/assets\packages\cupertino_icons\assets\CupertinoIcons.ttf": "9a62a954b81a1ad45a58b9bcea89b50b",
 "/index.html": "d5e99157bc4db8c63c9dcc6a036e518a",
-"/main.dart.js": "c69e630fb85ccd3398167299ed922684",
+"/main.dart.js": "a7e6598aa887eebbfe4796047478bdda",
 "/main.dart.js.deps": "ccd39dd62f699dff7dcd573e106f041c"
 };
 
