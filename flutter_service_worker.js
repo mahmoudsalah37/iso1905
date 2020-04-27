@@ -35,14 +35,14 @@ const RESOURCES = {
 "assets/icons/transfer.png": "7ec026caa56f1b6e65e6c2e036f80f34",
 "assets/icons/victim.png": "539ab6e6cc1cc5a3273d7522c20c6249",
 "assets/icons/view.png": "2814fc32ea68697d79fc0c52ed22f1d9",
-"assets/LICENSE": "b08ad63d78713abdcc448b4187c8375c",
+"assets/LICENSE": "e7a694d11495b8508461174433055036",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "115e937bb829a890521f72d2e664b632",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "index.html": "1047f3d4239225f30d93a0d825d3a526",
 "/": "1047f3d4239225f30d93a0d825d3a526",
-"main.dart.js": "626ba5752657246118ff40a7f320fea6",
+"main.dart.js": "8f5275a9b9ee9c47ca28ca9af3bdd31f",
 "manifest.json": "ce28a26834858024722270671ee4923e"
 };
 
