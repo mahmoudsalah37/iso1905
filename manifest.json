@@ -1,11 +1,11 @@
 {
-    "name": "iso_flutter",
-    "short_name": "iso_flutter",
+    "name": "INSPEED",
+    "short_name": "INSPEED",
     "start_url": ".",
     "display": "minimal-ui",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
