@@ -40,14 +40,14 @@ const RESOURCES = {
 "assets/icons/transfer.png": "7ec026caa56f1b6e65e6c2e036f80f34",
 "assets/icons/victim.png": "539ab6e6cc1cc5a3273d7522c20c6249",
 "assets/icons/view.png": "2814fc32ea68697d79fc0c52ed22f1d9",
-"assets/NOTICES": "928c905ace1919f3cec5ea26aa6d0616",
+"assets/NOTICES": "272bafdebb5b549a4c70c0361e1d0350",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "115e937bb829a890521f72d2e664b632",
 "favicon.png": "2239c34e8821d859b14ee3c3686947e6",
 "icons/Icon-192.png": "2239c34e8821d859b14ee3c3686947e6",
 "icons/Icon-512.png": "2239c34e8821d859b14ee3c3686947e6",
 "index.html": "f6156f51d0455ff4bb7c10887e3e3e4d",
 "/": "f6156f51d0455ff4bb7c10887e3e3e4d",
-"main.dart.js": "9de34318e15754890f992c6bf2c97456",
+"main.dart.js": "faaa4a3cb520c7d2719feae30c7ebbc9",
 "manifest.json": "675ddf11f7d4a8abbf16f27dab872afb"
 };
 
@@ -57,7 +57,7 @@ const CORE = [
   "/",
 "main.dart.js",
 "index.html",
-"assets/LICENSE",
+"assets/NOTICES",
 "assets/AssetManifest.json",
 "assets/FontManifest.json"];
 
@@ -139,7 +139,7 @@ self.addEventListener("fetch", (event) => {
   if (event.request.url == origin || event.request.url.startsWith(origin + '/#')) {
     key = '/';
   }
-  // If the URL is not the the RESOURCE list, skip the cache.
+  // If the URL is not the RESOURCE list, skip the cache.
   if (!RESOURCES[key]) {
     return event.respondWith(fetch(event.request));
   }
@@ -162,11 +162,11 @@ self.addEventListener("fetch", (event) => {
 self.addEventListener('message', (event) => {
   // SkipWaiting can be used to immediately activate a waiting service worker.
   // This will also require a page refresh triggered by the main worker.
-  if (event.message == 'skipWaiting') {
+  if (event.data === 'skipWaiting') {
     return self.skipWaiting();
   }
 
-  if (event.message = 'downloadOffline') {
+  if (event.message === 'downloadOffline') {
     downloadOffline();
   }
 });
@@ -186,8 +186,8 @@ async function downloadOffline() {
   }
   for (var resourceKey in Object.keys(RESOURCES)) {
     if (!currentContent[resourceKey]) {
-      resources.add(resourceKey);
+      resources.push(resourceKey);
     }
   }
-  return Cache.addAll(resources);
+  return contentCache.addAll(resources);
 }
