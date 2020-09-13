@@ -4,8 +4,8 @@ const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "assets/AssetManifest.json": "2efbb41d7877d10aac9d091f58ccd7b9",
-"assets/FontManifest.json": "01700ba55b08a6141f33e168c4a6c22f",
-"assets/fonts/MaterialIcons-Regular.ttf": "56d3ffdef7a25659eab6a68a3fbfaf16",
+"assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
+"assets/fonts/MaterialIcons-Regular.otf": "a68d2a28c526b3b070aefca4bac93d25",
 "assets/icons/add.png": "ca7337f4ca00c0be154ed7d6d4027228",
 "assets/icons/architecture.png": "4ba9d491928a77b4c5769ddbf3094b94",
 "assets/icons/bag.png": "57259dd26d090fe49f8fca1bc5b32e9f",
@@ -28,26 +28,28 @@ const RESOURCES = {
 "assets/icons/megaphone.png": "c98414b4f245fc63891e68187d18365d",
 "assets/icons/menu.png": "34b001f95356789af2edb82a899e6771",
 "assets/icons/paper.png": "56fcd05880c7cb68478febb5200612d6",
+"assets/icons/person.png": "91d595f6c0e57e7e055b1084ef18f083",
 "assets/icons/process.png": "2a86e7350b1db72269edf85d15e7cad9",
 "assets/icons/product.png": "ee8b4d1d18e482f3355645203309fbdc",
 "assets/icons/report.png": "021f5fd6a9cc11f2a0389f82e76cac18",
 "assets/icons/risks.png": "6960d6e6e512922b9c8fcf8a650fb723",
 "assets/icons/se.png": "0794da6b2666f6b9bb93f75989fd828c",
 "assets/icons/search.png": "0794da6b2666f6b9bb93f75989fd828c",
+"assets/icons/settings.png": "aa1e210395fdf0e1ff890aa849b0164d",
 "assets/icons/software.png": "a2ce7579ca14739479a281834000c00a",
 "assets/icons/solution.png": "aa1489a1dfc8733eb0e88128dca9c951",
 "assets/icons/support.png": "270523465b3f706d7fc14bdeb51a96c9",
 "assets/icons/transfer.png": "7ec026caa56f1b6e65e6c2e036f80f34",
 "assets/icons/victim.png": "539ab6e6cc1cc5a3273d7522c20c6249",
 "assets/icons/view.png": "2814fc32ea68697d79fc0c52ed22f1d9",
-"assets/NOTICES": "272bafdebb5b549a4c70c0361e1d0350",
+"assets/NOTICES": "12d18264bc1b439ab4bf13e4f7220efd",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "115e937bb829a890521f72d2e664b632",
 "favicon.png": "2239c34e8821d859b14ee3c3686947e6",
 "icons/Icon-192.png": "2239c34e8821d859b14ee3c3686947e6",
 "icons/Icon-512.png": "2239c34e8821d859b14ee3c3686947e6",
 "index.html": "f6156f51d0455ff4bb7c10887e3e3e4d",
 "/": "f6156f51d0455ff4bb7c10887e3e3e4d",
-"main.dart.js": "fec0e26584cc4ab186f927d58df9f7b9",
+"main.dart.js": "b336d6dae7067615b1494fbf4a069231",
 "manifest.json": "675ddf11f7d4a8abbf16f27dab872afb"
 };
 
@@ -65,8 +67,8 @@ const CORE = [
 self.addEventListener("install", (event) => {
   return event.waitUntil(
     caches.open(TEMP).then((cache) => {
-      // Provide a no-cache param to ensure the latest version is downloaded.
-      return cache.addAll(CORE.map((value) => new Request(value, {'cache': 'no-cache'})));
+      // Provide a 'reload' param to ensure the latest version is downloaded.
+      return cache.addAll(CORE.map((value) => new Request(value, {'cache': 'reload'})));
     })
   );
 });
@@ -149,7 +151,7 @@ self.addEventListener("fetch", (event) => {
         // Either respond with the cached resource, or perform a fetch and
         // lazily populate the cache. Ensure the resources are not cached
         // by the browser for longer than the service worker expects.
-        var modifiedRequest = new Request(event.request, {'cache': 'no-cache'});
+        var modifiedRequest = new Request(event.request, {'cache': 'reload'});
         return response || fetch(modifiedRequest).then((response) => {
           cache.put(event.request, response.clone());
           return response;
