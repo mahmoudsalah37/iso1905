@@ -81245,7 +81245,7 @@ i.r=j.r
 i.x=j.x}h=V.b5k(l)
 g=U.aRf(null)
 s=9
-return P.G(g.mm(0,"https://cors-anywhere.herokuapp.com/mahmmoudahmed-001-site2.ftempurl.com/AccsessLevel/UpdateFromAccsessLevelPermissions?id_AccsessLevel="+H.f(n),null,h,null,null,g.PA("PUT",B.aSu(null,null,null,$.pl(),null,null,null,null,null,null,null,null,null)),null,t.z),$async$J)
+return P.G(g.mm(0,"https://cors-anywhere.herokuapp.com/mahmmoudahmed-001-site2.ftempurl.com/api/v1/AccsessLevel/UpdateFromAccsessLevelPermissions?id_AccsessLevel="+H.f(n),null,h,null,null,g.PA("PUT",B.aSu(null,null,null,$.pl(),null,null,null,null,null,null,null,null,null)),null,t.z),$async$J)
 case 9:S.b4($.af,new E.agm(m))
 q.Y()
 s=6
