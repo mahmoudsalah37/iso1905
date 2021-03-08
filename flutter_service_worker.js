@@ -5,7 +5,7 @@ const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "assets/AssetManifest.json": "2efbb41d7877d10aac9d091f58ccd7b9",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
-"assets/fonts/MaterialIcons-Regular.otf": "1288c9e28052e028aba623321f7826ac",
+"assets/fonts/MaterialIcons-Regular.otf": "a68d2a28c526b3b070aefca4bac93d25",
 "assets/icons/add.png": "ca7337f4ca00c0be154ed7d6d4027228",
 "assets/icons/architecture.png": "4ba9d491928a77b4c5769ddbf3094b94",
 "assets/icons/bag.png": "57259dd26d090fe49f8fca1bc5b32e9f",
@@ -42,16 +42,15 @@ const RESOURCES = {
 "assets/icons/transfer.png": "7ec026caa56f1b6e65e6c2e036f80f34",
 "assets/icons/victim.png": "539ab6e6cc1cc5a3273d7522c20c6249",
 "assets/icons/view.png": "2814fc32ea68697d79fc0c52ed22f1d9",
-"assets/NOTICES": "6571a6ff396b08af67a643853e46c27c",
+"assets/NOTICES": "73336f9a466838e2093173178a5027b8",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "b14fcf3ee94e3ace300b192e9e7c8c5d",
 "favicon.png": "2239c34e8821d859b14ee3c3686947e6",
 "icons/Icon-192.png": "2239c34e8821d859b14ee3c3686947e6",
 "icons/Icon-512.png": "2239c34e8821d859b14ee3c3686947e6",
-"index.html": "22e838e1f9365036d8094a367f042b00",
-"/": "22e838e1f9365036d8094a367f042b00",
-"main.dart.js": "8751523100dde10f808b97d5d2bdaba0",
-"manifest.json": "675ddf11f7d4a8abbf16f27dab872afb",
-"version.json": "5dde737e46a51fcc682e154dcb3375fe"
+"index.html": "48e0249c626c076e33d2848fd2694f60",
+"/": "48e0249c626c076e33d2848fd2694f60",
+"main.dart.js": "4f2671d3881b512ee39efb4ebef33769",
+"manifest.json": "4246d4ff363622b42f0b5e76f574f3c7"
 };
 
 // The application shell files that are downloaded before a service worker can
@@ -63,13 +62,13 @@ const CORE = [
 "assets/NOTICES",
 "assets/AssetManifest.json",
 "assets/FontManifest.json"];
+
 // During install, the TEMP cache is populated with the application shell files.
 self.addEventListener("install", (event) => {
-  self.skipWaiting();
   return event.waitUntil(
     caches.open(TEMP).then((cache) => {
-      return cache.addAll(
-        CORE.map((value) => new Request(value + '?revision=' + RESOURCES[value], {'cache': 'reload'})));
+      // Provide a 'reload' param to ensure the latest version is downloaded.
+      return cache.addAll(CORE.map((value) => new Request(value, {'cache': 'reload'})));
     })
   );
 });
@@ -84,6 +83,7 @@ self.addEventListener("activate", function(event) {
       var tempCache = await caches.open(TEMP);
       var manifestCache = await caches.open(MANIFEST);
       var manifest = await manifestCache.match('manifest');
+
       // When there is no prior manifest, clear the entire cache.
       if (!manifest) {
         await caches.delete(CACHE_NAME);
@@ -97,6 +97,7 @@ self.addEventListener("activate", function(event) {
         await manifestCache.put('manifest', new Response(JSON.stringify(RESOURCES)));
         return;
       }
+
       var oldManifest = await manifest.json();
       var origin = self.location.origin;
       for (var request of await contentCache.keys()) {
@@ -134,33 +135,24 @@ self.addEventListener("activate", function(event) {
 // The fetch handler redirects requests for RESOURCE files to the service
 // worker cache.
 self.addEventListener("fetch", (event) => {
-  if (event.request.method !== 'GET') {
-    return;
-  }
   var origin = self.location.origin;
   var key = event.request.url.substring(origin.length + 1);
   // Redirect URLs to the index.html
-  if (key.indexOf('?v=') != -1) {
-    key = key.split('?v=')[0];
-  }
-  if (event.request.url == origin || event.request.url.startsWith(origin + '/#') || key == '') {
+  if (event.request.url == origin || event.request.url.startsWith(origin + '/#')) {
     key = '/';
   }
-  // If the URL is not the RESOURCE list then return to signal that the
-  // browser should take over.
+  // If the URL is not the RESOURCE list, skip the cache.
   if (!RESOURCES[key]) {
-    return;
-  }
-  // If the URL is the index.html, perform an online-first request.
-  if (key == '/') {
-    return onlineFirst(event);
+    return event.respondWith(fetch(event.request));
   }
   event.respondWith(caches.open(CACHE_NAME)
     .then((cache) =>  {
       return cache.match(event.request).then((response) => {
         // Either respond with the cached resource, or perform a fetch and
-        // lazily populate the cache.
-        return response || fetch(event.request).then((response) => {
+        // lazily populate the cache. Ensure the resources are not cached
+        // by the browser for longer than the service worker expects.
+        var modifiedRequest = new Request(event.request, {'cache': 'reload'});
+        return response || fetch(modifiedRequest).then((response) => {
           cache.put(event.request, response.clone());
           return response;
         });
@@ -173,12 +165,11 @@ self.addEventListener('message', (event) => {
   // SkipWaiting can be used to immediately activate a waiting service worker.
   // This will also require a page refresh triggered by the main worker.
   if (event.data === 'skipWaiting') {
-    self.skipWaiting();
-    return;
+    return self.skipWaiting();
   }
-  if (event.data === 'downloadOffline') {
+
+  if (event.message === 'downloadOffline') {
     downloadOffline();
-    return;
   }
 });
 
@@ -201,26 +192,4 @@ async function downloadOffline() {
     }
   }
   return contentCache.addAll(resources);
-}
-
-// Attempt to download the resource online before falling back to
-// the offline cache.
-function onlineFirst(event) {
-  return event.respondWith(
-    fetch(event.request).then((response) => {
-      return caches.open(CACHE_NAME).then((cache) => {
-        cache.put(event.request, response.clone());
-        return response;
-      });
-    }).catch((error) => {
-      return caches.open(CACHE_NAME).then((cache) => {
-        return cache.match(event.request).then((response) => {
-          if (response != null) {
-            return response;
-          }
-          throw error;
-        });
-      });
-    })
-  );
 }
